@@ -30,7 +30,6 @@ public class TgRemoteService extends TelegramLongPollingBot {
         MOOD_RESP.put("sleepy", "Пора на боковую! Даже супергерои отдыхают, ты не исключение.");
     }
 
-
     public TgRemoteService(@Value("${telegram.bot.name}") String botName,
                            @Value("${telegram.bot.token}") String botToken) {
         this.botName = botName;
@@ -59,7 +58,6 @@ public class TgRemoteService extends TelegramLongPollingBot {
             send(sendButtons(chatId));
         }
     }
-
 
     private void send(SendMessage message) {
         try {
