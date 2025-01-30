@@ -19,6 +19,12 @@ public class MoodBotApplication {
         return args -> {
             AppConfig appConfig = ctx.getBean(AppConfig.class);
             appConfig.printConfig();
+
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            System.out.println("Beans in ApplicationContext:");
+            for (String beanName : beanNames) {
+                System.out.println("====- - - ->" + beanName);
+            }
         };
     }
 }
