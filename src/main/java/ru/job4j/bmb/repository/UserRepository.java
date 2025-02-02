@@ -10,5 +10,6 @@ public interface UserRepository {
 
     User findByClientId(Long clientId);
 
+    void add(User user);
 }
 

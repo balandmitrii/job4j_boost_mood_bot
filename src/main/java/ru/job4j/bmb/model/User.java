@@ -10,6 +10,8 @@ public class User {
 
     private Long chatId;
 
+    public User() {}
+
     public User(Long id, Long clientId, Long chatId) {
         this.id = id;
         this.clientId = clientId;
