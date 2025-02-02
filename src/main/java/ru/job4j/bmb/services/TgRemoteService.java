@@ -1,6 +1,7 @@
 
 package ru.job4j.bmb.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -70,7 +71,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
                 var user = new User();
                 user.setClientId(message.getFrom().getId());
                 user.setChatId(chatId);
-                userRepository.add(user);
+                userRepository.save(user);
                 send(sendButtons(chatId));
             }
         }
