@@ -20,7 +20,14 @@ public class MoodLog {
     @JoinColumn(name = "mood_id")
     private Mood mood;
 
-    private Long createAt;
+    private Long createdAt;
+
+    public MoodLog(Long id, User user, Mood mood, Long createdAt) {
+        this.id = id;
+        this.user = user;
+        this.mood = mood;
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
@@ -46,12 +53,12 @@ public class MoodLog {
         this.mood = mood;
     }
 
-    public Long getCreateAt() {
-        return createAt;
+    public Long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Long createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -60,11 +67,11 @@ public class MoodLog {
             return false;
         }
         MoodLog moodLog = (MoodLog) o;
-        return Objects.equals(id, moodLog.id) && Objects.equals(user, moodLog.user) && Objects.equals(mood, moodLog.mood) && Objects.equals(createAt, moodLog.createAt);
+        return Objects.equals(id, moodLog.id) && Objects.equals(user, moodLog.user) && Objects.equals(mood, moodLog.mood) && Objects.equals(createdAt, moodLog.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, mood, createAt);
+        return Objects.hash(id, user, mood, createdAt);
     }
 }

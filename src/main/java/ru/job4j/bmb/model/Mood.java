@@ -16,6 +16,8 @@ public class Mood {
 
     private boolean good;
 
+    public Mood() { }
+
     public Mood(String text, boolean good) {
         this.text = text;
         this.good = good;
