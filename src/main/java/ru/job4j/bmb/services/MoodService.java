@@ -10,19 +10,16 @@ import ru.job4j.bmb.repository.UserRepository;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MoodService {
-    private final MoodLogRepository moodLogRepository;
-    private final RecommendationEngine recommendationEngine;
-    private final UserRepository userRepository;
-    private final AchievementRepository achievementRepository;
-    private final DateTimeFormatter formatter = DateTimeFormatter
-            .ofPattern("dd-MM-yyyy HH:mm")
-            .withZone(ZoneId.systemDefault());
+    private final MoodLogRepository moodLogRepository; // Репозиторий для работы с записями настроений (MoodLogs)
+    private final RecommendationEngine recommendationEngine; // Система рекомендаций по настроению
+    private final UserRepository userRepository; // Репозиторий для работы с пользователями
+    private final AchievementRepository achievementRepository; // Репозиторий для работы с достижениями (Awards)
+    private final String dateTimeFormatter = "dd-MM-yyyy HH:mm";
 
     public MoodService(MoodLogRepository moodLogRepository,
                        RecommendationEngine recommendationEngine,
@@ -34,35 +31,71 @@ public class MoodService {
         this.achievementRepository = achievementRepository;
     }
 
+    /**
+     * Выбирает настроение для пользователя в зависимости от рекомендации системы.
+     *
+     * @param user   Пользователь, чей запрос обрабатывается
+     * @param moodId Идентификатор настроения, которое необходимо выбрать
+     * @return Содержание выбранного настроения (Content)
+     */
     public Content chooseMood(User user, Long moodId) {
         return recommendationEngine.recommendFor(user.getChatId(), moodId);
     }
 
+    /**
+     * Возвращает содержимое для команды недельной отчетности о настроении.
+     *
+     * @param chatId Идентификатор чата пользователя
+     * @param clientId Идентификатор клиента (пользователя)
+     * @return Содержание для вывода в чат (Content) или пустая опциональная ячейка, если данные недоступны
+     */
     public Optional<Content> weekMoodLogCommand(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content);
+        return Optional.of(content); // Возвращаем содержание для вывода в чат
     }
 
+    /**
+     * Возвращает содержимое для команды месячной отчетности о настроении.
+     *
+     * @param chatId Идентификатор чата пользователя
+     * @param clientId Идентификатор клиента (пользователя)
+     * @return Содержание для вывода в чат (Content) или пустая опциональная ячейка, если данные недоступны
+     */
     public Optional<Content> monthMoodLogCommand(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content);
+        return Optional.of(content); // Возвращаем содержание для вывода в чат
     }
 
+    /**
+     * Формирует строку с отформатированными записями настроений.
+     *
+     * @param logs   Список записей настроений (MoodLog)
+     * @param title  Заголовок для результата
+     * @return Отформатированная строка с записями настроений или сообщение о их отсутствии, если список пуст
+     */
     private String formatMoodLogs(List<MoodLog> logs, String title) {
-        if (logs.isEmpty()) {
-            return title + ":\nNo mood logs found.";
+        if (logs.isEmpty()) { // Проверка на наличие записей настроений
+            return String.format("%s:\nNo mood logs found.", title); // Сообщение об отсутствии записей
         }
-        var sb = new StringBuilder(title + ":\n");
-        logs.forEach(log -> {
-            String formattedDate = formatter.format(Instant.ofEpochSecond(log.getCreatedAt()));
-            sb.append(formattedDate).append(": ").append(log.getMood().getText()).append("\n");
-        });
-        return sb.toString();
+        StringBuilder sb = new StringBuilder(String.format("%s:\n", title)); // Создаем строковую библиотеку для форматирования результата
+
+        for (MoodLog log : logs) {
+            String formattedDate = Instant.ofEpochSecond(log.getCreatedAt()).atZone(ZoneId.systemDefault())
+                    .format(java.time.format.DateTimeFormatter.ofPattern(dateTimeFormatter)); // Форматирование даты и времени
+            sb.append(String.format("%s: %s\n", formattedDate, log.getMood().getText())); // Добавляем запись в строку с форматированием
+        }
+        return sb.toString(); // Возвращаем отформатированную строку
     }
 
+    /**
+     * Возвращает содержимое для команды поощрений (awards).
+     *
+     * @param chatId Идентификатор чата пользователя
+     * @param clientId Идентификатор клиента (пользователя)
+     * @return Содержание для вывода в чат (Content) или пустая опциональная ячейка, если данные недоступны
+     */
     public Optional<Content> awards(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content);
+        return Optional.of(content); // Возвращаем содержание для вывода в чат
     }
 }
-
