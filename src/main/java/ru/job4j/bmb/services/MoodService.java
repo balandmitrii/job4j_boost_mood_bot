@@ -13,14 +13,44 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Сервис для работы с настроениями пользователей.
+ */
 @Service
 public class MoodService {
-    private final MoodLogRepository moodLogRepository; // Репозиторий для работы с записями настроений (MoodLogs)
-    private final RecommendationEngine recommendationEngine; // Система рекомендаций по настроению
-    private final UserRepository userRepository; // Репозиторий для работы с пользователями
-    private final AchievementRepository achievementRepository; // Репозиторий для работы с достижениями (Awards)
+    /**
+     * Репозиторий для работы с записями настроений (MoodLogs).
+     */
+    private final MoodLogRepository moodLogRepository;
+
+    /**
+     * Система рекомендаций по настроению.
+     */
+    private final RecommendationEngine recommendationEngine;
+
+    /**
+     * Репозиторий для работы с пользователями.
+     */
+    private final UserRepository userRepository;
+
+    /**
+     * Репозиторий для работы с достижениями (Awards).
+     */
+    private final AchievementRepository achievementRepository;
+
+    /**
+     * Формат даты и времени.
+     */
     private final String dateTimeFormatter = "dd-MM-yyyy HH:mm";
 
+    /**
+     * Конструктор сервиса.
+     *
+     * @param moodLogRepository Репозиторий для работы с записями настроений (MoodLogs)
+     * @param recommendationEngine Система рекомендаций по настроению
+     * @param userRepository Репозиторий для работы с пользователями
+     * @param achievementRepository Репозиторий для работы с достижениями (Awards)
+     */
     public MoodService(MoodLogRepository moodLogRepository,
                        RecommendationEngine recommendationEngine,
                        UserRepository userRepository,
@@ -74,7 +104,7 @@ public class MoodService {
      * @return Отформатированная строка с записями настроений или сообщение о их отсутствии, если список пуст
      */
     private String formatMoodLogs(List<MoodLog> logs, String title) {
-        if (logs.isEmpty()) { // Проверка на наличие записей настроений
+        if (logs.isEmpty()) {
             return String.format("%s:\nNo mood logs found.", title); // Сообщение об отсутствии записей
         }
         StringBuilder sb = new StringBuilder(String.format("%s:\n", title)); // Создаем строковую библиотеку для форматирования результата
