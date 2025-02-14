@@ -81,7 +81,7 @@ public class MoodService {
      */
     public Optional<Content> weekMoodLogCommand(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content); // Возвращаем содержание для вывода в чат
+        return Optional.of(content);
     }
 
     /**
@@ -93,7 +93,7 @@ public class MoodService {
      */
     public Optional<Content> monthMoodLogCommand(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content); // Возвращаем содержание для вывода в чат
+        return Optional.of(content);
     }
 
     /**
@@ -105,16 +105,16 @@ public class MoodService {
      */
     private String formatMoodLogs(List<MoodLog> logs, String title) {
         if (logs.isEmpty()) {
-            return String.format("%s:\nNo mood logs found.", title); // Сообщение об отсутствии записей
+            return String.format("%s:\nNo mood logs found.", title);
         }
-        StringBuilder sb = new StringBuilder(String.format("%s:\n", title)); // Создаем строковую библиотеку для форматирования результата
+        StringBuilder sb = new StringBuilder(String.format("%s:\n", title));
 
         for (MoodLog log : logs) {
             String formattedDate = Instant.ofEpochSecond(log.getCreatedAt()).atZone(ZoneId.systemDefault())
-                    .format(java.time.format.DateTimeFormatter.ofPattern(dateTimeFormatter)); // Форматирование даты и времени
-            sb.append(String.format("%s: %s\n", formattedDate, log.getMood().getText())); // Добавляем запись в строку с форматированием
+                    .format(java.time.format.DateTimeFormatter.ofPattern(dateTimeFormatter));
+            sb.append(String.format("%s: %s\n", formattedDate, log.getMood().getText()));
         }
-        return sb.toString(); // Возвращаем отформатированную строку
+        return sb.toString();
     }
 
     /**
@@ -126,6 +126,6 @@ public class MoodService {
      */
     public Optional<Content> awards(long chatId, Long clientId) {
         var content = new Content(chatId);
-        return Optional.of(content); // Возвращаем содержание для вывода в чат
+        return Optional.of(content);
     }
 }
