@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.job4j.bmb.model.User;
@@ -64,7 +65,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
             send(new SendMessage(String.valueOf(chatId), MOOD_RESP.get(data)));
         }
         if (update.hasMessage() && update.getMessage().hasText()) {
-            var message = update.getMessage();
+            Message message = update.getMessage();
             if ("/start".equals(message.getText())) {
                 long chatId = message.getChatId();
                 var user = new User();
